@@ -4,11 +4,11 @@
       "id": "user-1766675970038-dmm43e86c",
       "email": "nazar@gmail.com",
       "password": "$2a$10$ErV4h9r.NAMzPJ2QcXlOqunlakXVoER8K66M4AaPsIr7jL9wsDU6y",
-      "fullName": "kk",
+      "fullName": "Nazar",
       "role": "user",
       "createdAt": "2025-12-25T15:19:30.038Z",
       "profile": {
-        "fullName": "kk",
+        "fullName": "Nazar",
         "email": "nazar@gmail.com",
         "phone": "",
         "preferences": {
@@ -62,7 +62,7 @@
           "updatedAt": "2025-12-25T15:20:53.698Z"
         }
       ],
-      "updatedAt": "2025-12-27T18:49:30.338Z"
+      "updatedAt": "2025-12-27T19:17:40.221Z"
     }
   ],
   "tours": [

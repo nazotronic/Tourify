@@ -7,7 +7,7 @@ import { TYPE_LABELS, DIFFICULTY_LABELS, PRESETS } from "../utils/constants";
 export function ProfileModal({ isOpen, onClose }) {
   const { user, changePassword, logout } = useAuth();
   const { state, updateProfile, tours } = useBooking(); // Get tours for tags
-  const [activeTab, setActiveTab] = useState("profile");
+  const [activeTab, setActiveTab] = useState(user?.role === "admin" ? "password" : "profile");
   const [showFilters, setShowFilters] = useState(false); // Toggle for filters
 
   // Compute unique tags from tours
@@ -169,48 +169,54 @@ export function ProfileModal({ isOpen, onClose }) {
           </button>
         </div>
 
-        <div style={{ marginBottom: "1.5rem", display: "flex", justifyContent: "center" }}>
-          <div
-            className="glass"
-            style={{
-              padding: "0.4rem 0.4rem",
-              display: "inline-flex",
-              gap: 6,
-              background: "rgba(15,23,42,0.6)",
-              borderRadius: 999,
-              border: "1px solid rgba(148,163,184,0.2)"
-            }}
-          >
-            <button
-              type="button"
-              className={activeTab === "profile" ? "chip active" : "chip"}
-              onClick={() => { setActiveTab("profile"); setError(""); setSuccess(""); }}
+        {user?.role !== "admin" ? (
+          <div style={{ marginBottom: "1.5rem", display: "flex", justifyContent: "center" }}>
+            <div
+              className="glass"
               style={{
+                padding: "0.4rem 0.4rem",
+                display: "inline-flex",
+                gap: 6,
+                background: "rgba(15,23,42,0.6)",
                 borderRadius: 999,
-                fontSize: "0.9rem",
-                padding: "0.4rem 1.2rem",
-                margin: 0,
-                border: activeTab === "profile" ? "none" : "1px solid transparent"
+                border: "1px solid rgba(148,163,184,0.2)"
               }}
             >
-              Дані профілю
-            </button>
-            <button
-              type="button"
-              className={activeTab === "password" ? "chip active" : "chip"}
-              onClick={() => { setActiveTab("password"); setError(""); setSuccess(""); }}
-              style={{
-                borderRadius: 999,
-                fontSize: "0.9rem",
-                padding: "0.4rem 1.2rem",
-                margin: 0,
-                border: activeTab === "password" ? "none" : "1px solid transparent"
-              }}
-            >
-              Зміна паролю
-            </button>
+              <button
+                type="button"
+                className={activeTab === "profile" ? "chip active" : "chip"}
+                onClick={() => { setActiveTab("profile"); setError(""); setSuccess(""); }}
+                style={{
+                  borderRadius: 999,
+                  fontSize: "0.9rem",
+                  padding: "0.4rem 1.2rem",
+                  margin: 0,
+                  border: activeTab === "profile" ? "none" : "1px solid transparent"
+                }}
+              >
+                Дані профілю
+              </button>
+              <button
+                type="button"
+                className={activeTab === "password" ? "chip active" : "chip"}
+                onClick={() => { setActiveTab("password"); setError(""); setSuccess(""); }}
+                style={{
+                  borderRadius: 999,
+                  fontSize: "0.9rem",
+                  padding: "0.4rem 1.2rem",
+                  margin: 0,
+                  border: activeTab === "password" ? "none" : "1px solid transparent"
+                }}
+              >
+                Зміна паролю
+              </button>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="section-subtitle" style={{ textAlign: "center", marginBottom: "1.5rem", color: "#fca5a5" }}>
+            Адміністратор: доступна лише зміна паролю
+          </div>
+        )}
 
         {error && (
           <div className="card-muted" style={{ padding: "0.75rem 1rem", borderRadius: 12, marginBottom: "1rem", border: "1px solid rgba(239,68,68,0.5)", background: "rgba(239,68,68,0.1)", color: "#fecaca" }}>

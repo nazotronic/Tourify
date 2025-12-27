@@ -243,9 +243,6 @@ export function Layout({ children }) {
                 <div className="section-title" style={{ fontSize: "1.1rem", marginBottom: 2 }}>
                   Написати в онлайн-підтримку
                 </div>
-                <div className="section-subtitle" style={{ fontSize: "0.8rem" }}>
-                  Це демо-форма: повідомлення нікуди не відправляється, а лишається в межах проєкту.
-                </div>
               </div>
               <button
                 type="button"
@@ -316,8 +313,8 @@ export function Layout({ children }) {
       )}
       <ProfileModal isOpen={profileOpen} onClose={() => setProfileOpen(false)} />
       <footer className="footer">
-        <span>© {new Date().getFullYear()} Tourify. Навчальний проєкт.</span>
-        <span>Збереження стану: Firebase · Без реальних оплат</span>
+        <span>© {new Date().getFullYear()} Tourify. All rights reserved.</span>
+        <span>Privacy Policy · Terms of Service</span>
       </footer>
     </div>
   );

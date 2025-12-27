@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useBooking } from "../context/BookingContext.jsx";
+import { TYPE_LABELS, DIFFICULTY_LABELS } from "../utils/constants";
 
 export function TourCard({ tour }) {
   const { toggleFavourite, state } = useBooking();
@@ -54,8 +55,7 @@ export function TourCard({ tour }) {
               </h3>
               <div style={{ fontSize: "0.8rem", color: "#9ca3af" }}>
                 {tour.durationDays} днів · від {tour.priceFrom}$ ·{" "}
-                <span style={{ color: "#fde68a" }}>★ {tour.rating}</span>{" "}
-                <span>({tour.reviewsCount})</span>
+                <span style={{ color: "#fde68a" }}>★ {tour.rating}</span>
               </div>
             </div>
           </div>
@@ -73,8 +73,8 @@ export function TourCard({ tour }) {
           </p>
 
           <div className="chip-group" style={{ marginTop: "0.25rem", marginBottom: "0.25rem" }}>
-            <span className="chip chip-static">{tour.type}</span>
-            <span className="chip chip-static">{tour.difficulty}</span>
+            <span className="chip chip-static">{TYPE_LABELS[tour.type] || tour.type}</span>
+            <span className="chip chip-static">{DIFFICULTY_LABELS[tour.difficulty] || tour.difficulty}</span>
             {tour.tags.slice(0, 2).map(t => (
               <span key={t} className="chip chip-static">
                 {t}

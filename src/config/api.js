@@ -47,6 +47,7 @@ export const authAPI = {
 };
 
 // User API
+// User API
 export const userAPI = {
     getUser: (id) => apiCall(`/users/${id}`),
 
@@ -54,6 +55,12 @@ export const userAPI = {
         apiCall(`/users/${id}`, {
             method: 'PUT',
             body: JSON.stringify(updates),
+        }),
+
+    changePassword: (id, password) =>
+        apiCall(`/users/${id}/password`, {
+            method: 'PUT',
+            body: JSON.stringify({ password }),
         }),
 };
 

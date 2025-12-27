@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useBooking } from "../context/BookingContext.jsx";
+import { TYPE_LABELS, DIFFICULTY_LABELS } from "../utils/constants";
 
 export function TourDetailsPage() {
   const { id } = useParams();
@@ -64,15 +65,14 @@ export function TourDetailsPage() {
         </h2>
         <div className="section-subtitle" style={{ marginBottom: 10 }}>
           від {tour.priceFrom}$ / особа ·{" "}
-          <span style={{ color: "#fde68a" }}>★ {tour.rating}</span> ·{" "}
-          {tour.reviewsCount} відгуків
+          <span style={{ color: "#fde68a" }}>★ {tour.rating}</span>
         </div>
         <p style={{ fontSize: "0.9rem", color: "#e5e7eb", marginBottom: 10 }}>
           {tour.description}
         </p>
         <div className="chip-group" style={{ marginBottom: 10 }}>
-          <span className="chip chip-static active">{tour.type}</span>
-          <span className="chip chip-static">{tour.difficulty}</span>
+          <span className="chip chip-static">{TYPE_LABELS[tour.type] || tour.type}</span>
+          <span className="chip chip-static">{DIFFICULTY_LABELS[tour.difficulty] || tour.difficulty}</span>
           {tour.tags.map(t => (
             <span key={t} className="chip chip-static">
               {t}
@@ -138,15 +138,6 @@ export function TourDetailsPage() {
               {people} × {tour.priceFrom}$
             </div>
             <div style={{ fontWeight: 650 }}>{total}$</div>
-          </div>
-          <div
-            style={{
-              marginTop: 4,
-              fontSize: "0.75rem",
-              color: "#9ca3af"
-            }}
-          >
-            Фінальну суму підтвердить менеджер після бронювання (демо-режим).
           </div>
         </div>
         <div style={{ display: "flex", gap: "0.5rem", marginBottom: 8 }}>

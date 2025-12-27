@@ -216,6 +216,42 @@ app.put('/api/users/:id', async (req, res) => {
     }
 });
 
+// Update user password
+app.put('/api/users/:id/password', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { password } = req.body;
+
+        if (!password || password.length < 6) {
+            return res.status(400).json({ error: 'Password must be at least 6 characters' });
+        }
+
+        const db = await readDB();
+
+        const userIndex = db.users.findIndex(u => u.id === id);
+        if (userIndex === -1) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Hash new password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Update password
+        db.users[userIndex] = {
+            ...db.users[userIndex],
+            password: hashedPassword,
+            updatedAt: new Date().toISOString()
+        };
+
+        await writeDB(db);
+
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Update password error:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 // ============ TOUR ENDPOINTS ============
 
 // Get all tours

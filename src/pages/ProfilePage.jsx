@@ -1,26 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useBooking } from "../context/BookingContext.jsx";
+import { TYPE_LABELS, DIFFICULTY_LABELS, PRESETS } from "../utils/constants";
 
 export function ProfilePage() {
-  const { state, updateProfile } = useBooking();
-  const [form, setForm] = useState(state.profile);
+  const { state, updateProfile, tours } = useBooking();
+  const [form, setForm] = useState(state.profile || {
+    fullName: "",
+    email: "",
+    phone: "",
+    preferences: {
+      type: [],
+      difficulty: [],
+      tags: [],
+      budgetFrom: 0,
+      budgetTo: 5000
+    }
+  });
+  const [showFilters, setShowFilters] = useState(false);
+
+  const uniqueTags = useMemo(() => {
+    return [...new Set(tours?.flatMap(t => t.tags || []) || [])].sort();
+  }, [tours]);
 
   const handleChange = (field, value) =>
     setForm(prev => ({ ...prev, [field]: value }));
+
+  const handlePrefChange = (field, value) => {
+    setForm(prev => ({
+      ...prev,
+      preferences: { ...prev.preferences, [field]: value }
+    }));
+  };
 
   const togglePref = (group, value) => {
     const current = form.preferences[group] || [];
     const exists = current.includes(value);
     const next = exists ? current.filter(v => v !== value) : [...current, value];
+    handlePrefChange(group, next);
+  };
+
+  const applyPreset = (preset) => {
     setForm(prev => ({
       ...prev,
-      preferences: { ...prev.preferences, [group]: next }
+      preferences: {
+        ...prev.preferences,
+        type: preset.type,
+        difficulty: preset.difficulty,
+        tags: []
+      }
     }));
   };
 
   const handleSubmit = e => {
     e.preventDefault();
     updateProfile(form);
+    // Maybe show success toast? Toast is in App.jsx via context toast state
   };
 
   return (
@@ -67,97 +101,94 @@ export function ProfilePage() {
           </button>
         </form>
       </div>
+
       <div className="glass" style={{ padding: "1rem" }}>
         <div className="section-title">Уподобання</div>
         <div className="section-subtitle" style={{ marginBottom: 10 }}>
           Оберіть швидкі фільтри, які будуть автоматично застосовуватися в каталозі турів.
         </div>
+
+        {/* Presets */}
         <div style={{ marginBottom: 12 }}>
-          <div style={{ fontSize: "0.85rem", color: "#9ca3af", marginBottom: 6 }}>
-            Типи відпочинку (швидкі фільтри)
-          </div>
+          <div style={{ fontSize: "0.85rem", color: "#9ca3af", marginBottom: 6 }}>Швидкий вибір:</div>
           <div className="chip-group">
-            <button
-              type="button"
-              className={
-                "chip" +
-                (form.preferences.type.includes("sea") ? " active" : "")
-              }
-              onClick={() => togglePref("type", "sea")}
-            >
-              Море
-            </button>
-            <button
-              type="button"
-              className={
-                "chip" +
-                (form.preferences.type.includes("mountain") ? " active" : "")
-              }
-              onClick={() => togglePref("type", "mountain")}
-            >
-              Гори
-            </button>
-            <button
-              type="button"
-              className={
-                "chip" +
-                (form.preferences.type.includes("city") ? " active" : "")
-              }
-              onClick={() => togglePref("type", "city")}
-            >
-              Міста
-            </button>
-            <button
-              type="button"
-              className={
-                "chip" +
-                (form.preferences.type.includes("adventure") ? " active" : "")
-              }
-              onClick={() => togglePref("type", "adventure")}
-            >
-              Пригоди
-            </button>
+            {PRESETS.map(p => (
+              <button
+                key={p.label}
+                type="button"
+                className="chip"
+                onClick={() => applyPreset(p)}
+                style={{ background: "rgba(15,23,42,0.6)", border: "1px solid rgba(148,163,184,0.3)" }}
+              >
+                {p.label}
+              </button>
+            ))}
           </div>
         </div>
-        <div>
-          <div style={{ fontSize: "0.85rem", color: "#9ca3af", marginBottom: 6 }}>
-            Рівень активності (швидкі фільтри)
+
+        <button
+          type="button"
+          className="btn btn-outline"
+          onClick={() => setShowFilters(!showFilters)}
+          style={{ width: "100%", justifyContent: "center", marginBottom: "1rem" }}
+        >
+          {showFilters ? "▴ Сховати детальні фільтри" : "▾ Налаштувати детально"}
+        </button>
+
+        {showFilters && (
+          <div className="grid grid-2" style={{ gap: "1rem", animation: "fadeIn 0.2s ease-out" }}>
+            <div>
+              <div style={{ fontSize: "0.85rem", color: "#9ca3af", marginBottom: 6 }}>1. Тип відпочинку</div>
+              <div className="chip-group">
+                {Object.entries(TYPE_LABELS).map(([key, label]) => (
+                  <button
+                    key={key}
+                    type="button"
+                    className={"chip" + (form.preferences.type?.includes(key) ? " active" : "")}
+                    onClick={() => togglePref("type", key)}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <div style={{ fontSize: "0.85rem", color: "#9ca3af", marginBottom: 6 }}>2. Рівень активності</div>
+              <div className="chip-group">
+                {Object.entries(DIFFICULTY_LABELS).map(([key, label]) => (
+                  <button
+                    key={key}
+                    type="button"
+                    className={"chip" + (form.preferences.difficulty?.includes(key) ? " active" : "")}
+                    onClick={() => togglePref("difficulty", key)}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ gridColumn: "1 / -1" }}>
+              <div style={{ fontSize: "0.85rem", color: "#9ca3af", marginBottom: 6 }}>3. Послуги та особливості</div>
+              <div className="chip-group">
+                {uniqueTags.map(tag => (
+                  <button
+                    key={tag}
+                    type="button"
+                    className={"chip" + (form.preferences.tags?.includes(tag) ? " active" : "")}
+                    onClick={() => togglePref("tags", tag)}
+                  >
+                    {tag}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
-          <div className="chip-group">
-            <button
-              type="button"
-              className={
-                "chip" +
-                (form.preferences.difficulty.includes("relax") ? " active" : "")
-              }
-              onClick={() => togglePref("difficulty", "relax")}
-            >
-              Релакс
-            </button>
-            <button
-              type="button"
-              className={
-                "chip" +
-                (form.preferences.difficulty.includes("medium") ? " active" : "")
-              }
-              onClick={() => togglePref("difficulty", "medium")}
-            >
-              Помірно
-            </button>
-            <button
-              type="button"
-              className={
-                "chip" +
-                (form.preferences.difficulty.includes("active") ? " active" : "")
-              }
-              onClick={() => togglePref("difficulty", "active")}
-            >
-              Активно
-            </button>
-          </div>
-        </div>
+        )}
+
         <div style={{ marginTop: "1rem", paddingTop: "1rem", borderTop: "1px solid rgba(148,163,184,0.3)" }}>
-          <button type="submit" className="btn btn-primary" onClick={handleSubmit}>
+          <button type="button" className="btn btn-primary" onClick={handleSubmit}>
             Зберегти уподобання
           </button>
         </div>

@@ -69,11 +69,19 @@ export function AuthProvider({ children }) {
   const changePassword = async (newPassword) => {
     try {
       setError(null);
-      // Note: Password change would need backend implementation
-      // For now, this is a placeholder
-      console.warn("Password change not implemented yet");
-      throw new Error("Зміна пароля наразі недоступна");
+      if (!user) throw new Error("Користувач не авторизований");
+
+      if (typeof userAPI.changePassword !== 'function') {
+        console.error("userAPI.changePassword is not a function", userAPI);
+        throw new Error("Функція зміни паролю недоступна. Спробуйте перезавантажити сторінку.");
+      }
+
+      await userAPI.changePassword(user.id, newPassword);
+
+      // Optional: Logout user to required re-login, or just succeed.
+      // We'll just succeed.
     } catch (err) {
+      console.error("Change password error:", err);
       setError(err.message);
       throw err;
     }

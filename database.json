@@ -14,6 +14,7 @@
         "preferences": {
           "type": [],
           "difficulty": [],
+          "tags": [],
           "budgetFrom": 0,
           "budgetTo": 5000
         }
@@ -47,7 +48,7 @@
           "updatedAt": "2025-12-25T15:20:53.698Z"
         }
       ],
-      "updatedAt": "2025-12-27T18:08:55.997Z"
+      "updatedAt": "2025-12-27T18:49:30.338Z"
     }
   ],
   "tours": [

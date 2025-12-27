@@ -122,14 +122,6 @@ export function Layout({ children }) {
                   Заброньовані тури
                 </NavLink>
                 <NavLink
-                  to="/profile"
-                  className={({ isActive }) =>
-                    "nav-link" + (isActive ? " nav-link-active" : "")
-                  }
-                >
-                  Профіль
-                </NavLink>
-                <NavLink
                   to="/dashboard"
                   className={({ isActive }) =>
                     "nav-link" + (isActive ? " nav-link-active" : "")

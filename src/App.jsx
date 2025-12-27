@@ -9,7 +9,6 @@ import { FavouritesPage } from "./pages/FavouritesPage.jsx";
 import { BookedToursPage } from "./pages/BookedToursPage.jsx";
 import { TourDetailsPage } from "./pages/TourDetailsPage.jsx";
 import { BookingPage } from "./pages/BookingPage.jsx";
-import { ProfilePage } from "./pages/ProfilePage.jsx";
 import { DashboardPage } from "./pages/DashboardPage.jsx";
 import { AdminToursPage } from "./pages/AdminToursPage.jsx";
 import { AdminToursManagePage } from "./pages/AdminToursManagePage.jsx";
@@ -67,7 +66,6 @@ function AppInner() {
             <Route path="/book/:id" element={<BookingPage />} />
             <Route path="/favourites" element={<FavouritesPage />} />
             <Route path="/booked" element={<BookedToursPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/login" element={<Navigate to="/" replace />} />
             <Route

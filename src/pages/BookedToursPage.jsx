@@ -47,7 +47,7 @@ export function BookedToursPage() {
         {allBookings.map(b => {
           const tour = getTourById(b.tourId);
           const isExpanded = expandedId === b.id;
-          
+
           return (
             <div key={b.id}>
               <div
@@ -112,7 +112,7 @@ export function BookedToursPage() {
                         {tour.description}
                       </div>
                       <div style={{ fontSize: "0.85rem", color: "#9ca3af" }}>
-                        ★ {tour.rating} ({tour.reviewsCount} відгуків)
+                        ★ {tour.rating}
                       </div>
                     </div>
                   </div>

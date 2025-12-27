@@ -147,7 +147,7 @@ export function ProfileModal({ isOpen, onClose }) {
       onClick={onClose}
     >
       <div
-        className="glass"
+        className="glass hide-scrollbar"
         style={{
           width: "100%",
           maxWidth: 600,

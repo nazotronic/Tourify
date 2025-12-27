@@ -138,6 +138,40 @@ app.post('/api/auth/login', async (req, res) => {
     }
 });
 
+// ------------------------------------------------------------------
+// USERS MANAGEMENT (ADMIN)
+// ------------------------------------------------------------------
+app.get('/api/users', async (req, res) => {
+    try {
+        const db = await readDB();
+        // Return users without passwords
+        const users = db.users.map(({ password, ...u }) => u);
+        res.json(users);
+    } catch (err) {
+        console.error('Error fetching users:', err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+app.delete('/api/users/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const db = await readDB();
+        const initialLength = db.users.length;
+        db.users = db.users.filter(u => u.id !== id);
+
+        if (db.users.length === initialLength) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        await writeDB(db);
+        res.json({ success: true });
+    } catch (err) {
+        console.error('Error deleting user:', err);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
 // Admin Login
 app.post('/api/auth/admin-login', async (req, res) => {
     try {

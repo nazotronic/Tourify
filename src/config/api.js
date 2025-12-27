@@ -62,6 +62,10 @@ export const userAPI = {
             method: 'PUT',
             body: JSON.stringify({ password }),
         }),
+
+    // Admin methods
+    getAllUsers: () => apiCall('/users'),
+    deleteUser: (id) => apiCall(`/users/${id}`, { method: 'DELETE' }),
 };
 
 // Tour API

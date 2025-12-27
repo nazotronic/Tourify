@@ -55,6 +55,14 @@ export function Layout({ children }) {
                   Управління турами
                 </NavLink>
                 <NavLink
+                  to="/admin/users"
+                  className={({ isActive }) =>
+                    "nav-link" + (isActive ? " nav-link-active" : "")
+                  }
+                >
+                  Користувачі
+                </NavLink>
+                <NavLink
                   to="/admin/bookings"
                   className={({ isActive }) =>
                     "nav-link" + (isActive ? " nav-link-active" : "")

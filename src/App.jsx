@@ -12,6 +12,7 @@ import { BookingPage } from "./pages/BookingPage.jsx";
 import { DashboardPage } from "./pages/DashboardPage.jsx";
 import { AdminToursPage } from "./pages/AdminToursPage.jsx";
 import { AdminToursManagePage } from "./pages/AdminToursManagePage.jsx";
+import { AdminUsersPage } from "./pages/AdminUsersPage.jsx";
 import { AdminBookingsPage } from "./pages/AdminBookingsPage.jsx";
 import { AdminSupportPage } from "./pages/AdminSupportPage.jsx";
 import { BookingProvider, useBooking } from "./context/BookingContext.jsx";
@@ -54,6 +55,7 @@ function AppInner() {
         {role === "admin" ? (
           <>
             <Route path="/admin/tours-manage" element={<AdminToursManagePage />} />
+            <Route path="/admin/users" element={<AdminUsersPage />} />
             <Route path="/admin/bookings" element={<AdminBookingsPage />} />
             <Route path="/admin/support" element={<AdminSupportPage />} />
             <Route path="*" element={<Navigate to="/admin/tours-manage" replace />} />

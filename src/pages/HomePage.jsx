@@ -60,7 +60,7 @@ export function HomePage() {
                 {state.bookings.length || "0"}
               </div>
               <div className="hero-metric-label">
-                зареєстрованих заявок (усі етапи)
+                бронювань
               </div>
             </div>
           </div>

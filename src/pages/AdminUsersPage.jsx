@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { userAPI } from "../config/api.js";
+import { Avatar } from "../components/Avatar.jsx";
 
 export function AdminUsersPage() {
     const [users, setUsers] = useState([]);
@@ -80,16 +81,7 @@ export function AdminUsersPage() {
                                     <div style={{ fontWeight: 600, fontSize: "1rem" }}>{user.fullName || "Без імені"}</div>
                                     <div style={{ fontSize: "0.85rem", color: "#9ca3af" }}>{user.email}</div>
                                 </div>
-                                <div
-                                    style={{
-                                        width: 32, height: 32, borderRadius: "50%",
-                                        background: "rgba(56,189,248,0.2)", color: "#38bdf8",
-                                        display: "flex", alignItems: "center", justifyContent: "center",
-                                        fontSize: "0.9rem", fontWeight: 700
-                                    }}
-                                >
-                                    {user.fullName?.[0]?.toUpperCase() || "U"}
-                                </div>
+                                <Avatar src={user.profile?.avatar} alt={user.fullName || user.email} size={32} />
                             </div>
 
                             <div style={{ marginTop: "auto", paddingTop: "0.8rem", display: "flex", gap: "0.5rem" }}>
@@ -116,68 +108,66 @@ export function AdminUsersPage() {
                         </div>
                     )}
                 </div>
-            )}
+            )
+            }
 
             {/* User Details Modal */}
-            {selectedUser && (
-                <div
-                    style={{
-                        position: "fixed", inset: 0, background: "rgba(15,23,42,0.8)", backdropFilter: "blur(5px)",
-                        display: "flex", alignItems: "center", justifyContent: "center", zIndex: 100, padding: "1rem"
-                    }}
-                    onClick={() => setSelectedUser(null)}
-                >
+            {
+                selectedUser && (
                     <div
-                        className="glass hide-scrollbar"
-                        style={{ width: "100%", maxWidth: 500, maxHeight: "90vh", overflowY: "auto", padding: "1.5rem" }}
-                        onClick={e => e.stopPropagation()}
+                        style={{
+                            position: "fixed", inset: 0, background: "rgba(15,23,42,0.8)", backdropFilter: "blur(5px)",
+                            display: "flex", alignItems: "center", justifyContent: "center", zIndex: 100, padding: "1rem"
+                        }}
+                        onClick={() => setSelectedUser(null)}
                     >
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
-                            <div className="section-title">Інформація про акаунт</div>
-                            <button className="btn btn-outline" style={{ padding: "0.2rem 0.6rem" }} onClick={() => setSelectedUser(null)}>✕</button>
-                        </div>
-
-                        <div style={{ display: "flex", gap: "1rem", alignItems: "center", marginBottom: "1.5rem" }}>
-                            <div
-                                style={{
-                                    width: 60, height: 60, borderRadius: "50%",
-                                    background: "linear-gradient(135deg, #38bdf8, #22c55e)", color: "#fff",
-                                    display: "flex", alignItems: "center", justifyContent: "center",
-                                    fontSize: "1.5rem", fontWeight: 700
-                                }}
-                            >
-                                {selectedUser.fullName?.[0]?.toUpperCase() || "U"}
+                        <div
+                            className="glass hide-scrollbar"
+                            style={{ width: "100%", maxWidth: 500, maxHeight: "90vh", overflowY: "auto", padding: "1.5rem" }}
+                            onClick={e => e.stopPropagation()}
+                        >
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
+                                <div className="section-title">Інформація про акаунт</div>
+                                <button className="btn btn-outline" style={{ padding: "0.2rem 0.6rem" }} onClick={() => setSelectedUser(null)}>✕</button>
                             </div>
-                            <div>
-                                <div style={{ fontSize: "1.1rem", fontWeight: 600 }}>{selectedUser.fullName || "Не вказано"}</div>
-                                <div style={{ fontSize: "0.9rem", color: "#9ca3af" }}>ID: {selectedUser.id}</div>
+
+                            <div style={{ display: "flex", gap: "1rem", alignItems: "center", marginBottom: "1.5rem" }}>
+                                <Avatar
+                                    src={selectedUser.profile?.avatar || selectedUser.avatar}
+                                    alt={selectedUser.fullName}
+                                    size={60}
+                                />
+                                <div>
+                                    <div style={{ fontSize: "1.1rem", fontWeight: 600 }}>{selectedUser.fullName || "Не вказано"}</div>
+                                    <div style={{ fontSize: "0.9rem", color: "#9ca3af" }}>ID: {selectedUser.id}</div>
+                                </div>
                             </div>
-                        </div>
 
-                        <div style={{ display: "grid", gap: "1rem" }}>
-                            <InfoRow label="Email" value={selectedUser.email} />
-                            <InfoRow label="Телефон" value={selectedUser.profile?.phone || "Не вказано"} />
-                            <div style={{ borderTop: "1px solid rgba(148,163,184,0.2)", margin: "0.5rem 0" }} />
-                            <InfoRow label="Бюджет" value={selectedUser.profile?.preferences?.budgetTo ? `до ${selectedUser.profile.preferences.budgetTo}$` : "Не налаштовано"} />
-                            <InfoRow label="Улюблені типи" value={selectedUser.profile?.preferences?.type?.join(", ") || "—"} />
-                            <InfoRow label="Рівень активності" value={selectedUser.profile?.preferences?.difficulty?.join(", ") || "—"} />
-                        </div>
+                            <div style={{ display: "grid", gap: "1rem" }}>
+                                <InfoRow label="Email" value={selectedUser.email} />
+                                <InfoRow label="Телефон" value={selectedUser.profile?.phone || "Не вказано"} />
+                                <div style={{ borderTop: "1px solid rgba(148,163,184,0.2)", margin: "0.5rem 0" }} />
+                                <InfoRow label="Бюджет" value={selectedUser.profile?.preferences?.budgetTo ? `до ${selectedUser.profile.preferences.budgetTo}$` : "Не налаштовано"} />
+                                <InfoRow label="Улюблені типи" value={selectedUser.profile?.preferences?.type?.join(", ") || "—"} />
+                                <InfoRow label="Рівень активності" value={selectedUser.profile?.preferences?.difficulty?.join(", ") || "—"} />
+                            </div>
 
-                        <div style={{ marginTop: "2rem", display: "flex", justifyContent: "flex-end", gap: "0.8rem" }}>
-                            <button
-                                className="btn btn-outline"
-                                style={{ color: "#fca5a5", borderColor: "rgba(239,68,68,0.3)" }}
-                                onClick={() => {
-                                    handleDelete(selectedUser.id);
-                                }}
-                            >
-                                Видалити акаунт
-                            </button>
+                            <div style={{ marginTop: "2rem", display: "flex", justifyContent: "flex-end", gap: "0.8rem" }}>
+                                <button
+                                    className="btn btn-outline"
+                                    style={{ color: "#fca5a5", borderColor: "rgba(239,68,68,0.3)" }}
+                                    onClick={() => {
+                                        handleDelete(selectedUser.id);
+                                    }}
+                                >
+                                    Видалити акаунт
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
-        </div>
+                )
+            }
+        </div >
     );
 }
 

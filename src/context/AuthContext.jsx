@@ -87,6 +87,17 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const refreshUser = async () => {
+    if (!user) return;
+    try {
+      const updatedUser = await userAPI.getUser(user.id);
+      setUser(updatedUser);
+      localStorage.setItem('tourify_user', JSON.stringify(updatedUser));
+    } catch (err) {
+      console.error("Failed to refresh user:", err);
+    }
+  };
+
   const adminLogin = async (password) => {
     try {
       setError(null);
@@ -122,6 +133,7 @@ export function AuthProvider({ children }) {
         logout,
         changePassword,
         adminLogin,
+        refreshUser,
         setError
       }}
     >

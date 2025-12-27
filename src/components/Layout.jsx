@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useBooking } from "../context/BookingContext.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import { ProfileModal } from "./ProfileModal.jsx";
+import { Avatar } from "./Avatar.jsx";
 
 export function Layout({ children }) {
   const [supportOpen, setSupportOpen] = useState(false);
@@ -183,31 +184,15 @@ export function Layout({ children }) {
                 type="button"
                 onClick={() => setProfileOpen(true)}
                 style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: "50%",
-                  background: "rgba(56,189,248,0.2)",
-                  border: "1px solid rgba(56,189,248,0.5)",
-                  color: "#60a5fa",
+                  background: "transparent",
+                  border: "none",
+                  padding: 0,
                   cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "1.1rem",
-                  fontWeight: 600,
-                  transition: "all 0.2s"
+                  borderRadius: "50%"
                 }}
-                onMouseEnter={e => {
-                  e.target.style.background = "rgba(56,189,248,0.3)";
-                  e.target.style.borderColor = "rgba(56,189,248,0.7)";
-                }}
-                onMouseLeave={e => {
-                  e.target.style.background = "rgba(56,189,248,0.2)";
-                  e.target.style.borderColor = "rgba(56,189,248,0.5)";
-                }}
-                title="Профіль"
+                title="Відкрити налаштування"
               >
-                {user.fullName?.[0]?.toUpperCase() || user.email?.[0]?.toUpperCase() || "U"}
+                <Avatar src={user.profile?.avatar} alt={user.fullName} size={42} />
               </button>
             )}
           </div>

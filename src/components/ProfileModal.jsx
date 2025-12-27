@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 import { useBooking } from "../context/BookingContext.jsx";
 
 import { TYPE_LABELS, DIFFICULTY_LABELS, PRESETS } from "../utils/constants";
+import { Avatar } from "./Avatar.jsx";
 
 export function ProfileModal({ isOpen, onClose }) {
   const { user, changePassword, logout } = useAuth();
@@ -157,8 +158,7 @@ export function ProfileModal({ isOpen, onClose }) {
         }}
         onClick={e => e.stopPropagation()}
       >
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
-          <div className="section-title">Профіль</div>
+        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "0.5rem" }}>
           <button
             type="button"
             className="btn btn-outline"
@@ -169,49 +169,85 @@ export function ProfileModal({ isOpen, onClose }) {
           </button>
         </div>
 
+        {/* Avatar Upload */}
         {user?.role !== "admin" ? (
-          <div style={{ marginBottom: "1.5rem", display: "flex", justifyContent: "center" }}>
-            <div
-              className="glass"
-              style={{
-                padding: "0.4rem 0.4rem",
-                display: "inline-flex",
-                gap: 6,
-                background: "rgba(15,23,42,0.6)",
-                borderRadius: 999,
-                border: "1px solid rgba(148,163,184,0.2)"
-              }}
-            >
-              <button
-                type="button"
-                className={activeTab === "profile" ? "chip active" : "chip"}
-                onClick={() => { setActiveTab("profile"); setError(""); setSuccess(""); }}
-                style={{
-                  borderRadius: 999,
-                  fontSize: "0.9rem",
-                  padding: "0.4rem 1.2rem",
-                  margin: 0,
-                  border: activeTab === "profile" ? "none" : "1px solid transparent"
+          <>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: "1.5rem" }}>
+              <div style={{ position: "relative", cursor: "pointer" }} onClick={() => document.getElementById("avatar-upload").click()}>
+                <Avatar src={form.avatar || form.preferences?.avatar} alt={form.fullName} size={80} />
+                <div
+                  style={{
+                    position: "absolute", bottom: 0, right: 0,
+                    background: "#38bdf8", borderRadius: "50%",
+                    width: 24, height: 24, display: "flex", alignItems: "center", justifyContent: "center",
+                    border: "2px solid #0f172a"
+                  }}
+                >
+                  <span style={{ fontSize: "14px", color: "#fff" }}>+</span>
+                </div>
+              </div>
+              <input
+                id="avatar-upload"
+                type="file"
+                accept="image/*"
+                style={{ display: "none" }}
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  if (file) {
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                      handleChange("avatar", reader.result);
+                    };
+                    reader.readAsDataURL(file);
+                  }
                 }}
-              >
-                Дані профілю
-              </button>
-              <button
-                type="button"
-                className={activeTab === "password" ? "chip active" : "chip"}
-                onClick={() => { setActiveTab("password"); setError(""); setSuccess(""); }}
-                style={{
-                  borderRadius: 999,
-                  fontSize: "0.9rem",
-                  padding: "0.4rem 1.2rem",
-                  margin: 0,
-                  border: activeTab === "password" ? "none" : "1px solid transparent"
-                }}
-              >
-                Зміна паролю
-              </button>
+              />
             </div>
-          </div>
+
+            {/* Tabs */}
+            <div style={{ marginBottom: "1.5rem", display: "flex", justifyContent: "center" }}>
+              <div
+                className="glass"
+                style={{
+                  padding: "0.4rem 0.4rem",
+                  display: "inline-flex",
+                  gap: 6,
+                  background: "rgba(15,23,42,0.6)",
+                  borderRadius: 999,
+                  border: "1px solid rgba(148,163,184,0.2)"
+                }}
+              >
+                <button
+                  type="button"
+                  className={activeTab === "profile" ? "chip active" : "chip"}
+                  onClick={() => { setActiveTab("profile"); setError(""); setSuccess(""); }}
+                  style={{
+                    borderRadius: 999,
+                    fontSize: "0.9rem",
+                    padding: "0.4rem 1.2rem",
+                    margin: 0,
+                    border: activeTab === "profile" ? "none" : "1px solid transparent"
+                  }}
+                >
+                  Дані профілю
+                </button>
+                <button
+                  type="button"
+                  className={activeTab === "password" ? "chip active" : "chip"}
+                  onClick={() => { setActiveTab("password"); setError(""); setSuccess(""); }}
+                  style={{
+                    borderRadius: 999,
+                    fontSize: "0.9rem",
+                    padding: "0.4rem 1.2rem",
+                    margin: 0,
+                    border: activeTab === "password" ? "none" : "1px solid transparent"
+                  }}
+                >
+                  Зміна паролю
+                </button>
+              </div>
+            </div>
+          </>
         ) : (
           <div className="section-subtitle" style={{ textAlign: "center", marginBottom: "1.5rem", color: "#fca5a5" }}>
             Адміністратор: доступна лише зміна паролю
@@ -395,7 +431,7 @@ export function ProfileModal({ isOpen, onClose }) {
           </button>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 

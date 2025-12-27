@@ -24,7 +24,7 @@ const defaultState = {
 };
 
 export function BookingProvider({ children }) {
-  const { user } = useAuth();
+  const { user, refreshUser } = useAuth();
   const [state, setState] = useState(defaultState);
   const [toast, setToast] = useState(null);
   const [role, setRole] = useState(null);
@@ -246,10 +246,11 @@ export function BookingProvider({ children }) {
           profile: updatedProfile
         }));
 
+        await refreshUser(); // Update AuthContext state
         setToast("Профіль збережено");
       } catch (err) {
         console.error("Помилка оновлення профілю:", err);
-        setToast("Помилка оновлення профілю");
+        setToast("Помилка: " + (err.message || "Не вдалося зберегти"));
       }
     };
 

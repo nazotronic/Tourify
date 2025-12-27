@@ -9,6 +9,7 @@ export function ToursPage() {
     query: "",
     type: [],
     difficulty: [],
+    tags: [],
     minPrice: "",
     maxPrice: ""
   });
@@ -25,6 +26,11 @@ export function ToursPage() {
     }
   }, [state.profile]);
 
+  const uniqueTags = useMemo(() => {
+    const allTags = tours.flatMap(t => t.tags || []);
+    return [...new Set(allTags)].sort();
+  }, [tours]);
+
   const filteredTours = useMemo(() => {
     return tours.filter(t => {
       if (filters.query) {
@@ -39,6 +45,8 @@ export function ToursPage() {
         !filters.difficulty.includes(t.difficulty)
       )
         return false;
+      if (filters.tags?.length && !t.tags.some(tag => filters.tags.includes(tag)))
+        return false;
       if (filters.minPrice && t.priceFrom < Number(filters.minPrice))
         return false;
       if (filters.maxPrice && t.priceFrom > Number(filters.maxPrice))
@@ -49,7 +57,7 @@ export function ToursPage() {
 
   return (
     <div>
-      <FiltersBar filters={filters} onChange={setFilters} />
+      <FiltersBar filters={filters} onChange={setFilters} availableTags={uniqueTags} />
       <div className="grid grid-3">
         {filteredTours.map(tour => (
           <TourCard key={tour.id} tour={tour} />

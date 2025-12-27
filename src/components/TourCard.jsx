@@ -73,7 +73,7 @@ export function TourCard({ tour }) {
           </p>
 
           <div className="chip-group" style={{ marginTop: "0.25rem", marginBottom: "0.25rem" }}>
-            <span className="chip chip-static active">{tour.type}</span>
+            <span className="chip chip-static">{tour.type}</span>
             <span className="chip chip-static">{tour.difficulty}</span>
             {tour.tags.slice(0, 2).map(t => (
               <span key={t} className="chip chip-static">
@@ -106,8 +106,8 @@ export function TourCard({ tour }) {
             >
               {isFav ? "В обраному" : "В обране"}
             </button>
-            <Link 
-              to={`/tours/${tour.id}`} 
+            <Link
+              to={`/tours/${tour.id}`}
               className="btn btn-primary"
               style={{
                 padding: "0.35rem 0.9rem",

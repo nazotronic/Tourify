@@ -1,0 +1,236 @@
+export const tours = [
+  {
+    id: "t1",
+    title: "Сонячний Балі",
+    country: "Індонезія",
+    durationDays: 10,
+    priceFrom: 1200,
+    rating: 4.9,
+    reviewsCount: 184,
+    difficulty: "relax",
+    type: "sea",
+    tags: ["all inclusive", "SPA", "серфінг"],
+    description:
+      "Зануртесь у світ бірюзових хвиль, рисових терас та стародавніх храмів. Ідеально для поєднання релаксу та активного відпочинку.",
+    highlights: [
+      "Сніданки з видом на океан",
+      "Приватний трансфер з аеропорту",
+      "Екскурсія до рисових терас Тегалаланг",
+      "Майстер-клас балінезької кухні"
+    ],
+    nextStart: "2025-02-10",
+    seatsLeft: 6,
+    image:
+      "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=1200"
+  },
+  {
+    id: "t2",
+    title: "Скандинавські фйорди",
+    country: "Норвегія",
+    durationDays: 7,
+    priceFrom: 980,
+    rating: 4.8,
+    reviewsCount: 96,
+    difficulty: "medium",
+    type: "mountain",
+    tags: ["трекинг", "панорами", "круїз"],
+    description:
+      "Маршрут для тих, хто любить прохолоду гірського повітря, дзеркальні фйорди та казкові норвезькі містечка.",
+    highlights: [
+      "Круїз уздовж найкрасивіших фйордів",
+      "Похід до Прікстолен та Троллтунга (за бажанням)",
+      "Скандинавські сніданки «шведський стіл»"
+    ],
+    nextStart: "2025-03-01",
+    seatsLeft: 10,
+    image:
+      "https://images.pexels.com/photos/1054218/pexels-photo-1054218.jpeg?auto=compress&cs=tinysrgb&w=1200"
+  },
+  {
+    id: "t3",
+    title: "Романтичний Париж",
+    country: "Франція",
+    durationDays: 5,
+    priceFrom: 760,
+    rating: 4.7,
+    reviewsCount: 212,
+    difficulty: "relax",
+    type: "city",
+    tags: ["weekend", "city break", "музеї"],
+    description:
+      "Класичний вікенд у Парижі: Ейфелева вежа, Лувр, вуличні кав’ярні та вечірні прогулянки вздовж Сени.",
+    highlights: [
+      "Прогулянка на кораблику по Сені",
+      "Квитки до Лувру без черги",
+      "Дегустація французьких сирів та вина"
+    ],
+    nextStart: "2025-01-28",
+    seatsLeft: 4,
+    image:
+      "https://images.pexels.com/photos/338515/pexels-photo-338515.jpeg?auto=compress&cs=tinysrgb&w=1200"
+  },
+  {
+    id: "t4",
+    title: "Гірський актив у Карпатах",
+    country: "Україна",
+    durationDays: 4,
+    priceFrom: 220,
+    rating: 4.6,
+    reviewsCount: 143,
+    difficulty: "active",
+    type: "mountain",
+    tags: ["трекинг", "еко-туризм", "weekend"],
+    description:
+      "Ідеальний варіант для втечі з міста: гори, гуцульський колорит, чан на свіжому повітрі та локальна кухня.",
+    highlights: [
+      "Похід на Говерлу або Піп Іван (залежно від погоди)",
+      "Спа-чан під відкритим небом",
+      "Дегустація локальних страв"
+    ],
+    nextStart: "2025-01-20",
+    seatsLeft: 14,
+    image:
+      "https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=1200"
+  },
+  {
+    id: "t5",
+    title: "Сафарі в Кенії",
+    country: "Кенія",
+    durationDays: 8,
+    priceFrom: 1650,
+    rating: 4.9,
+    reviewsCount: 67,
+    difficulty: "medium",
+    type: "adventure",
+    tags: ["дика природа", "фото-тур", "сафарі"],
+    description:
+      "Справжня африканська пригода: леви, жирафи, зебри та заходи сонця над саваною.",
+    highlights: [
+      "Ранкові та вечірні виїзди на сафарі",
+      "Проживання в лоджах посеред природи",
+      "Супровід досвідченого гіда"
+    ],
+    nextStart: "2025-04-05",
+    seatsLeft: 5,
+    image:
+      "https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=1200"
+  },
+  {
+    id: "t6",
+    title: "Digital Detox на острові",
+    country: "Греція",
+    durationDays: 6,
+    priceFrom: 640,
+    rating: 4.5,
+    reviewsCount: 51,
+    difficulty: "relax",
+    type: "sea",
+    tags: ["detox", "йога", "mindfulness"],
+    description:
+      "Повне перезавантаження без гаджетів: йога на світанку, медитації та легкі прогулянки узбережжям.",
+    highlights: [
+      "Щоденні йога-сесії",
+      "Здорове харчування включене",
+      "Групові практики mindfulness"
+    ],
+    nextStart: "2025-03-15",
+    seatsLeft: 8,
+    image:
+      "https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&w=1200"
+  }
+  ,
+  {
+    id: "t7",
+    title: "Вікенд у Барселоні",
+    country: "Іспанія",
+    durationDays: 4,
+    priceFrom: 540,
+    rating: 4.6,
+    reviewsCount: 121,
+    difficulty: "relax",
+    type: "city",
+    tags: ["city break", "гастрономія", "архітектура"],
+    description:
+      "Коротка подорож до Барселони: Ґауді, море, тапас та вечірні прогулянки Ла Рамбла.",
+    highlights: [
+      "Екскурсія до Саграда Фамілія",
+      "Вечеря з тапас у локальному барі",
+      "Прогулянка уздовж пляжу Барселонета"
+    ],
+    nextStart: "2025-05-02",
+    seatsLeft: 9,
+    image:
+      "https://images.pexels.com/photos/804954/pexels-photo-804954.jpeg?auto=compress&cs=tinysrgb&w=1200"
+  },
+  {
+    id: "t8",
+    title: "Йога-ретрит в Індії",
+    country: "Індія",
+    durationDays: 9,
+    priceFrom: 890,
+    rating: 4.7,
+    reviewsCount: 73,
+    difficulty: "medium",
+    type: "adventure",
+    tags: ["йога", "detox", "mindfulness"],
+    description:
+      "Ретрит у гімалайському ашрамі: щоденні практики йоги, медитації та аюрведичне харчування.",
+    highlights: [
+      "Йога на світанку з гімалайськими краєвидами",
+      "Консультація з аюрведичним лікарем",
+      "Дні тиші та практики mindfulness"
+    ],
+    nextStart: "2025-06-12",
+    seatsLeft: 12,
+    image:
+      "https://images.pexels.com/photos/2908175/pexels-photo-2908175.jpeg?auto=compress&cs=tinysrgb&w=1200"
+  },
+  {
+    id: "t9",
+    title: "Снігові пригоди в Альпах",
+    country: "Швейцарія",
+    durationDays: 6,
+    priceFrom: 1150,
+    rating: 4.8,
+    reviewsCount: 89,
+    difficulty: "active",
+    type: "mountain",
+    tags: ["лижний відпочинок", "SPA", "панорами"],
+    description:
+      "Комбінований лижний та спа-тур в Альпах для тих, хто любить сніг і комфорт.",
+    highlights: [
+      "Скі-паси на 4 дні",
+      "Вечірній спа-комплекс в готелі",
+      "Панорамна поїздка фунікулером"
+    ],
+    nextStart: "2025-01-30",
+    seatsLeft: 11,
+    image:
+      "https://images.pexels.com/photos/4173445/pexels-photo-4173445.jpeg?auto=compress&cs=tinysrgb&w=1200"
+  },
+  {
+    id: "t10",
+    title: "Острівна класика: Мальдіви",
+    country: "Мальдіви",
+    durationDays: 7,
+    priceFrom: 2100,
+    rating: 4.9,
+    reviewsCount: 54,
+    difficulty: "relax",
+    type: "sea",
+    tags: ["all inclusive", "honeymoon", "premium"],
+    description:
+      "Бірюзова вода, білосніжний пісок і вілла на воді — тур для максимального релаксу.",
+    highlights: [
+      "Проживання у віллі на воді",
+      "Пакет all inclusive",
+      "Снорклінг серед коралових рифів"
+    ],
+    nextStart: "2025-07-08",
+    seatsLeft: 4,
+    image:
+      "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=1200"
+  }
+];
+
+

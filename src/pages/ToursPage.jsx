@@ -17,11 +17,14 @@ export function ToursPage() {
   // Автоматично застосовувати фільтри з уподобань при заході на сторінку
   useEffect(() => {
     const prefs = state.profile?.preferences;
-    if (prefs && (prefs.type?.length > 0 || prefs.difficulty?.length > 0)) {
+    if (prefs) {
       setFilters(prev => ({
         ...prev,
-        type: prefs.type || [],
-        difficulty: prefs.difficulty || []
+        type: prefs.type?.length ? prefs.type : prev.type,
+        difficulty: prefs.difficulty?.length ? prefs.difficulty : prev.difficulty,
+        tags: prefs.tags?.length ? prefs.tags : prev.tags,
+        minPrice: prefs.budgetFrom || prev.minPrice,
+        maxPrice: prefs.budgetTo || prev.maxPrice
       }));
     }
   }, [state.profile]);

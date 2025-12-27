@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useBooking } from "../context/BookingContext.jsx";
 
 export function BookingPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { getTourById, createBooking, state } = useBooking();
   const tour = getTourById(id);
 
@@ -14,8 +15,8 @@ export function BookingPage() {
     email: state.profile.email || "",
     phone: state.profile.phone || "",
     comment: "",
-    people: 2,
-    date: tour?.nextStart || ""
+    people: location.state?.people || 2,
+    date: location.state?.date || tour?.nextStart || ""
   });
 
   if (!tour) {

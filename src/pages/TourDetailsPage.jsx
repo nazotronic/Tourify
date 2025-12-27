@@ -9,6 +9,7 @@ export function TourDetailsPage() {
   const { getTourById, toggleFavourite, state } = useBooking();
   const tour = getTourById(id);
   const [people, setPeople] = useState(2);
+  const [date, setDate] = useState(tour?.nextStart || "");
 
   if (!tour) {
     return (
@@ -120,7 +121,8 @@ export function TourDetailsPage() {
           <input
             className="input"
             type="date"
-            defaultValue={tour.nextStart}
+            value={date}
+            onChange={e => setDate(e.target.value)}
           />
         </div>
         <div
@@ -143,7 +145,7 @@ export function TourDetailsPage() {
         <div style={{ display: "flex", gap: "0.5rem", marginBottom: 8 }}>
           <button
             className="btn btn-primary"
-            onClick={() => navigate(`/book/${tour.id}`)}
+            onClick={() => navigate(`/book/${tour.id}`, { state: { date, people } })}
           >
             Перейти до бронювання
           </button>

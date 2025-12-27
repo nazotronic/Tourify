@@ -486,7 +486,7 @@ a {
   font-size: 0.9rem;
   font-weight: 700;
   color: #f9fafb;
-  box-shadow: 0 12px 30px rgba(56, 189, 248, 0.55);
+  box-shadow: none;
 }
 
 .nav-links {

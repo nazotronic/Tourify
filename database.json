@@ -37,6 +37,20 @@
           "createdAt": "2025-12-25T15:20:23.065Z",
           "status": "confirmed",
           "updatedAt": "2025-12-25T15:20:56.452Z"
+        },
+        {
+          "tourId": "t1",
+          "tourTitle": "Сонячний Балі",
+          "startDate": "2026-01-03",
+          "date": "2026-01-03",
+          "people": 4,
+          "fullName": "Nazar Vereshchynskyi",
+          "email": "nazar@gmail.com",
+          "phone": "0953486494",
+          "comment": "Hello!",
+          "id": "b-1766861953693",
+          "createdAt": "2025-12-27T18:59:13.693Z",
+          "status": "pending"
         }
       ],
       "supportMessages": [

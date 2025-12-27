@@ -22,158 +22,158 @@ export function HomePage() {
     <>
       <div className="hero-layout">
         <section>
-        <h1 className="hero-title">
-          Плануйте подорожі в{" "}
-          <span className="hero-gradient">два кліки</span> з{" "}
-          <span style={{ fontWeight: 700 }}>Tourify</span>.
-        </h1>
-        <p className="hero-subtitle">
-          Обирайте тури, фільтруйте за напрямками, тривалістю та бюджетом,
-          бронюйте онлайн та відстежуйте всі заявки в одному місці. Ідеально
-          під навчальний проєкт і реальні подорожі мрії.
-        </p>
+          <h1 className="hero-title">
+            Плануйте подорожі в{" "}
+            <span className="hero-gradient">два кліки</span> з{" "}
+            <span style={{ fontWeight: 700 }}>Tourify</span>.
+          </h1>
+          <p className="hero-subtitle">
+            Обирайте тури, фільтруйте за напрямками, тривалістю та бюджетом,
+            бронюйте онлайн та відстежуйте всі заявки в одному місці. Ідеально
+            під навчальний проєкт і реальні подорожі мрії.
+          </p>
 
-        <div style={{ marginTop: "1rem", display: "flex", gap: "0.75rem" }}>
-          <Link to="/tours" className="btn btn-primary">
-            Переглянути тури
-          </Link>
-          <Link to="/dashboard" className="btn btn-outline">
-            Відкрити аналітику
-          </Link>
-        </div>
+          <div style={{ marginTop: "1rem", display: "flex", gap: "0.75rem" }}>
+            <Link to="/tours" className="btn btn-primary">
+              Переглянути тури
+            </Link>
+            <Link to="/dashboard" className="btn btn-outline">
+              Відкрити аналітику
+            </Link>
+          </div>
 
-        <div className="hero-metrics">
-          <div className="hero-metric">
-            <div className="hero-metric-value">{tours.length}</div>
-            <div className="hero-metric-label">готових тур-пакетів</div>
-          </div>
-          <div className="hero-metric">
-            <div className="hero-metric-value">{destinations.size}</div>
-            <div className="hero-metric-label">напрямів по світу</div>
-          </div>
-          <div className="hero-metric">
-            <div className="hero-metric-value">~{avgPrice}$</div>
-            <div className="hero-metric-label">середній бюджет на тур</div>
-          </div>
-          <div className="hero-metric">
-            <div className="hero-metric-value">
-              {state.bookings.length || "0"}
+          <div className="hero-metrics">
+            <div className="hero-metric">
+              <div className="hero-metric-value">{tours.length}</div>
+              <div className="hero-metric-label">готових тур-пакетів</div>
             </div>
-            <div className="hero-metric-label">
-              зареєстрованих заявок (усі етапи)
+            <div className="hero-metric">
+              <div className="hero-metric-value">{destinations.size}</div>
+              <div className="hero-metric-label">напрямів по світу</div>
             </div>
-          </div>
-        </div>
-
-        <div style={{ marginTop: "1.5rem" }}>
-          <div
-            className="glass"
-            style={{
-              padding: "1.5rem 2rem",
-              display: "inline-flex",
-              gap: 6,
-              background: "rgba(15,23,42,0.9)",
-              borderRadius: 999
-            }}
-          >
-            <button
-              type="button"
-              className={
-                "chip" + (view === "popular" ? " active" : "")
-              }
-              style={{
-                borderRadius: 999,
-                fontSize: "0.75rem",
-                padding: "0.2rem 0.6rem"
-              }}
-              onClick={() => setView("popular")}
-            >
-              Популярні тури
-            </button>
-            <button
-              type="button"
-              className={
-                "chip" + (view === "pending" ? " active" : "")
-              }
-              style={{
-                borderRadius: 999,
-                fontSize: "0.75rem",
-                padding: "0.2rem 0.6rem"
-              }}
-              onClick={() => setView("pending")}
-            >
-              В обробці
-            </button>
-            <button
-              type="button"
-              className={
-                "chip" + (view === "confirmed" ? " active" : "")
-              }
-              style={{
-                borderRadius: 999,
-                fontSize: "0.75rem",
-                padding: "0.2rem 0.6rem"
-              }}
-              onClick={() => setView("confirmed")}
-            >
-              Заброньовані
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <aside className="hero-card">
-        <div className="hero-card-header">
-          <div>
-            <div className="hero-card-title">Статус заброньованих турів</div>
-            <div className="hero-card-destination">
-              Етапи: заявка → підтвердження адміністратором → заброньовано
+            <div className="hero-metric">
+              <div className="hero-metric-value">~{avgPrice}$</div>
+              <div className="hero-metric-label">середній бюджет на тур</div>
+            </div>
+            <div className="hero-metric">
+              <div className="hero-metric-value">
+                {state.bookings.length || "0"}
+              </div>
+              <div className="hero-metric-label">
+                зареєстрованих заявок (усі етапи)
+              </div>
             </div>
           </div>
-          <span className="badge badge-success">
-            {confirmedBookings.length
-              ? `${confirmedBookings.length} заброньовано`
-              : "Чекаємо перше підтвердження"}
-          </span>
-        </div>
-        <div className="hero-track">
-          {confirmedBookings.slice(-3).map(b => {
-            const tour = tours.find(t => t.id === b.tourId);
-            if (!tour) return null;
-            return (
-              <div key={b.id} className="hero-track-item">
+
+          <div style={{ marginTop: "1.5rem" }}>
+            <div
+              className="glass"
+              style={{
+                padding: "0.5rem 0.5rem",
+                display: "inline-flex",
+                gap: 6,
+                background: "rgba(15,23,42,0.9)",
+                borderRadius: 999
+              }}
+            >
+              <button
+                type="button"
+                className={
+                  "chip" + (view === "popular" ? " active" : "")
+                }
+                style={{
+                  borderRadius: 999,
+                  fontSize: "0.95rem",
+                  padding: "0.4rem 1rem"
+                }}
+                onClick={() => setView("popular")}
+              >
+                Популярні тури
+              </button>
+              <button
+                type="button"
+                className={
+                  "chip" + (view === "pending" ? " active" : "")
+                }
+                style={{
+                  borderRadius: 999,
+                  fontSize: "0.95rem",
+                  padding: "0.4rem 1rem"
+                }}
+                onClick={() => setView("pending")}
+              >
+                В обробці
+              </button>
+              <button
+                type="button"
+                className={
+                  "chip" + (view === "confirmed" ? " active" : "")
+                }
+                style={{
+                  borderRadius: 999,
+                  fontSize: "0.95rem",
+                  padding: "0.4rem 1rem"
+                }}
+                onClick={() => setView("confirmed")}
+              >
+                Заброньовані
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <aside className="hero-card">
+          <div className="hero-card-header">
+            <div>
+              <div className="hero-card-title">Статус заброньованих турів</div>
+              <div className="hero-card-destination">
+                Етапи: заявка → підтвердження адміністратором → заброньовано
+              </div>
+            </div>
+            <span className="badge badge-success">
+              {confirmedBookings.length
+                ? `${confirmedBookings.length} заброньовано`
+                : "Чекаємо перше підтвердження"}
+            </span>
+          </div>
+          <div className="hero-track">
+            {confirmedBookings.slice(-3).map(b => {
+              const tour = tours.find(t => t.id === b.tourId);
+              if (!tour) return null;
+              return (
+                <div key={b.id} className="hero-track-item">
+                  <div>
+                    <div>{tour.title}</div>
+                    <div style={{ fontSize: "0.75rem", color: "#9ca3af" }}>
+                      {tour.country} · {tour.durationDays} днів
+                    </div>
+                  </div>
+                  <span className="badge badge-success">підтверджено</span>
+                </div>
+              );
+            })}
+            {confirmedBookings.length === 0 && (
+              <div className="hero-track-item">
                 <div>
-                  <div>{tour.title}</div>
+                  <div>Поки немає підтверджених турів</div>
                   <div style={{ fontSize: "0.75rem", color: "#9ca3af" }}>
-                    {tour.country} · {tour.durationDays} днів
+                    Створіть заявку та позначте її як підтверджену в розділі
+                    «Аналітика» (демо).
                   </div>
                 </div>
-                <span className="badge badge-success">підтверджено</span>
               </div>
-            );
-          })}
-          {confirmedBookings.length === 0 && (
-            <div className="hero-track-item">
-              <div>
-                <div>Поки немає підтверджених турів</div>
-                <div style={{ fontSize: "0.75rem", color: "#9ca3af" }}>
-                  Створіть заявку та позначте її як підтверджену в розділі
-                  «Аналітика» (демо).
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-        <div className="hero-card-footer">
-          <span style={{ fontSize: "0.8rem", color: "#9ca3af" }}>
-            Дані зберігаються тільки у вашому браузері · Без реальних оплат
-          </span>
-          <Link to="/tours" className="btn btn-primary">
-            Забронювати тур
-          </Link>
-        </div>
-      </aside>
-    </div>
+            )}
+          </div>
+          <div className="hero-card-footer">
+            <span style={{ fontSize: "0.8rem", color: "#9ca3af" }}>
+              Дані зберігаються тільки у вашому браузері · Без реальних оплат
+            </span>
+            <Link to="/tours" className="btn btn-primary">
+              Забронювати тур
+            </Link>
+          </div>
+        </aside>
+      </div>
 
       {/* Блок під геро-секцією, який залежить від вибраного режиму */}
       <div style={{ marginTop: "1.5rem" }}>

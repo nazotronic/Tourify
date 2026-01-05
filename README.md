@@ -1,83 +1,105 @@
-## Tourify — веб-платформа для бронювання турів
+# 🌍 Tourify - Tour Booking Web System
 
-**Тема курсової**: веб-платформа для бронювання путівок на тури з каталогом, фільтрами, обраним, профілем та аналітикою бронювань.
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Firebase](https://img.shields.io/badge/Firebase-039BE5?style=for-the-badge&logo=Firebase&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=Vite&logoColor=white)
 
-### Основний функціонал
+**Tourify** is a modern, web-based platform for browsing and booking travel tours. It provides a seamless experience for tourists to discover their next adventure and a powerful dashboard for administrators to manage bookings and content.
 
-- **Головна сторінка**: маркетингова секція, живий трекер популярних турів, метрики (кількість турів, середній бюджет, кількість заявок).
-- **Каталог турів**:
-  - фільтрація за типом (море, гори, міста, пригоди),
-  - пошук за назвою / країною / тегами,
-  - фільтр за бюджетом та рівнем активності,
-  - картки турів з рейтингами, тегами, кнопками «В обране» та «Детальніше».
-- **Обрані тури**: список обраних карток, збереження стану в `localStorage`.
-- **Сторінка туру**:
-  - детальна інформація, основні враження,
-  - попередній розрахунок вартості (кількість людей × базова ціна),
-  - кнопка переходу до багатокрокової форми бронювання.
-- **Бронювання**:
-  - 3 кроки (параметри туру → контакти → підтвердження),
-  - підстановка даних профілю,
-  - створення «заявки» (без оплати) і збереження в `localStorage`.
-- **Профіль**:
-  - базові контактні дані (ім’я, email, телефон),
-  - вподобання: тип відпочинку, рівень активності.
-- **Аналітика (Dashboard)**:
-  - кількість усіх заявок, очікуючих та (умовно) підтверджених,
-  - розподіл заявок за країнами,
-  - таблиця створених заявок із датою та назвою туру.
+The project is built as a Single Page Application (SPA) using **React** and powered by **Firebase** (Auth & Firestore) for a serverless, real-time backend.
 
-> Вся логіка працює на фронтенді. Дані заявок та профілю зберігаються в `localStorage` браузера, тому це безпечно для демонстрації й зручно для захисту курсової.
+---
 
-### Як запустити проєкт локально
+## ✨ Features
 
-1. **Встановіть Node.js** (якщо ще не встановлено):
-   - Завантажте інсталятор з офіційного сайту `https://nodejs.org` (LTS-версія).
-   - Після встановлення в PowerShell/терміналі команда `node -v` має повертати номер версії.
+### 👤 For Users (Tourists)
+*   **Explore Tours:** Browse a rich catalog of tours with filters by country and price.
+*   **Booking System:** Easy 3-step booking process with instant feedback.
+*   **Personal Dashboard:** Track booking statuses (`Pending`, `Confirmed`, `Cancelled`) in real-time.
+*   **Favorites:** Save tours to your wishlist.
+*   **Profile Management:** Update personal details and avatar.
+*   **Online Support:** Send messages directly to the administration.
 
-2. **Перейдіть у папку проєкту**:
+### 👑 For Administrators
+*   **Dashboard:** Overview of new bookings and active users.
+*   **Booking Management:** Approve or Reject incoming booking requests.
+*   **Tour Management (CRUD):** Create, Read, Update, and Delete tours in the catalog.
+*   **Support Center:** Read and mark user inquiries as read.
+*   **User Management:** View registered users.
 
-   ```bash
-   cd "D:\!nulp\3 курс\course_work"
-   ```
+---
 
-3. **Встановіть залежності** (один раз):
+## 🛠️ Technology Stack
 
-   ```bash
-   npm install
-   ```
+*   **Frontend:** React.js 18
+*   **Build Tool:** Vite (Super fast build times)
+*   **Routing:** React Router v6
+*   **Backend / Database:** Firebase (Cloud Firestore)
+*   **Authentication:** Firebase Authentication (Email/Password)
+*   **Styling:** Custom CSS with Glassmorphism design system
 
-4. **Запустіть режим розробки**:
+---
 
-   ```bash
-   npm run dev
-   ```
+## 🚀 Getting Started
 
-   Після цього Vite покаже адресу типу `http://localhost:5173/`. Відкрийте її в браузері.
+### Prerequisites
+*   Node.js (v16+)
+*   npm or yarn
 
-5. **Збірка для продакшену (опційно)**:
+### Installation
 
-   ```bash
-   npm run build
-   npm run preview
-   ```
+1.  **Clone the repository**
+    ```bash
+    git clone https://github.com/nazotronic/Tourify.git
+    cd Tourify
+    ```
 
-   Команда `npm run build` створює оптимізовану збірку, а `npm run preview` дозволяє локально її переглянути.
+2.  **Install dependencies**
+    ```bash
+    npm install
+    ```
 
-### Структура проєкту (коротко)
+3.  **Configure Firebase**
+    *   The project expects a `src/config/firebase.js` file with your Firebase configuration keys.
+    *   *Note: This project is already configured with a public Firebase instance for demonstration purposes.*
 
-- **`src/main.jsx`** — вхідна точка React, підключення `BrowserRouter`.
-- **`src/App.jsx`** — маршрути та Layout.
-- **`src/context/BookingContext.jsx`** — глобальний контекст з турами, обраним, заявками та профілем (плюс збереження у `localStorage`).
-- **`src/data/tours.js`** — мок-дані турів.
-- **`src/pages/*`** — сторінки (Home, Tours, TourDetails, Booking, Favourites, Profile, Dashboard).
-- **`src/components/*`** — спільні компоненти (Layout, TourCard, FiltersBar).
-- **`src/styles.css`** — глобальні стилі, «скляний» темний UI, сітки, кнопки тощо.
+4.  **Run the development server**
+    ```bash
+    npm run dev
+    ```
 
-Це повноцінний односторінковий застосунок (SPA) на React з сучасним дизайном, достатньо насичений функціоналом для курсової роботи на тему «Веб-платформа для бронювання путівок на тури».
+5.  **Open in browser**
+    Visit `http://localhost:5174` (or the port shown in your terminal).
 
+---
 
+## 📂 Project Structure
 
+```
+src/
+├── components/      # Reusable UI components (Avatar, Layout, Modal)
+├── config/          # Firebase configuration & API abstraction layer
+├── context/         # React Contexts (AuthContext, BookingContext)
+├── pages/           # Page components (Home, Tours, Dashboard, Admin...)
+├── styles/          # Global styles and variables
+└── main.jsx         # Application entry point
+```
 
+---
 
+## 🔑 key Roles & Credentials
 
+**Admin Access:**
+*   **URL:** `/admin`
+*   **Email:** `admin@tourify.com`
+*   **Password:** `admin123`
+
+**User Access:**
+*   Any registered user via `/login`.
+
+---
+
+## 🛡️ License
+
+This project was developed as a Coursework Project.
+All rights reserved © 2026.

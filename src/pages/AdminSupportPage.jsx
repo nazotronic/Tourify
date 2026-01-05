@@ -77,7 +77,7 @@ export function AdminSupportPage() {
                 )}
               </div>
               <div style={{ fontSize: "0.95rem", lineHeight: 1.6, whiteSpace: "pre-wrap" }}>
-                {msg.text}
+                {msg.message}
               </div>
             </div>
           ))}

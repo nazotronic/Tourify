@@ -204,7 +204,12 @@ export const bookingAPI = {
     },
 
     createBooking: async (userId, bookingData) => {
-        const data = { ...bookingData, userId, createdAt: new Date().toISOString() };
+        const data = {
+            status: "pending",
+            ...bookingData,
+            userId,
+            createdAt: new Date().toISOString()
+        };
         const ref = await addDoc(collection(db, "bookings"), data);
         return { id: ref.id, ...data };
     },

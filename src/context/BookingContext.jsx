@@ -100,13 +100,18 @@ export function BookingProvider({ children }) {
           }));
         } else {
           // Regular user loads their own data
-          const userData = await userAPI.getUser(user.id);
+          // Fetch user profile, bookings, and messages in parallel
+          const [userData, userBookings, userMessages] = await Promise.all([
+            userAPI.getUser(user.id),
+            bookingAPI.getBookings(user.id, false),
+            supportAPI.getMessages(user.id, false)
+          ]);
 
           setState(prev => ({
             ...prev,
             favourites: userData.favourites || [],
-            bookings: userData.bookings || [],
-            supportMessages: userData.supportMessages || [],
+            bookings: userBookings || [],
+            supportMessages: userMessages || [],
             profile: userData.profile || {
               fullName: userData.fullName || "",
               email: userData.email || "",

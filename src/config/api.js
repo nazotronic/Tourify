@@ -69,16 +69,7 @@ export const authAPI = {
     login: async (email, password) => {
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            // Fetch user profile
-            const userDocRef = doc(db, "users", userCredential.user.uid);
-            const userDocSnap = await getDoc(userDocRef);
-
-            if (!userDocSnap.exists()) {
-                // Should not happen if registered correctly
-                return { user: { uid: userCredential.user.uid, email } };
-            }
-
-            return { user: { id: userCredential.user.uid, ...userDocSnap.data() } };
+            return { user: { uid: userCredential.user.uid, email } };
         } catch (error) {
             console.error("Login error", error);
             throw error;

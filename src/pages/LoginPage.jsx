@@ -41,10 +41,19 @@ export function LoginPage() {
       }
     } catch (err) {
       let errorMessage = "Помилка авторизації";
-      if (err.message) {
+
+      console.error("Auth Error Details:", err);
+
+      if (err.code === 'auth/network-request-failed') {
+        errorMessage = "Помилка з'єднання. Перевірте підключення до інтернету.";
+      } else if (err.code === 'auth/invalid-credential' || err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password') {
+        errorMessage = "Невірний email або пароль.";
+      } else if (err.code === 'auth/email-already-in-use') {
+        errorMessage = "Цей email вже використовується.";
+      } else if (err.message) {
         errorMessage = err.message;
       }
-      console.error("Помилка авторизації:", err);
+
       setError(errorMessage);
     } finally {
       setLoading(false);

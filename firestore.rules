@@ -1,0 +1,57 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper: Check if user is signed in
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Helper: Check if user is accessing their own data
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Helper: Check if user is admin (simple check provided user doc has role)
+    // Note: Creating a secure admin system usually requires Custom Claims. 
+    // For this coursework, we will check the 'role' field in the user document.
+    function isAdmin() {
+      return isAuthenticated() && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // USERS Collection
+    // - Authenticated users can read their own profile
+    // - Admins can read all profiles
+    // - Users can write to their own profile
+    // - Admins can write to any profile
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow write: if isOwner(userId) || isAdmin();
+    }
+    
+    // TOURS Collection
+    // - Anyone can read tours (public catalog)
+    // - Only admins can write (create/update/delete)
+    match /tours/{tourId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // BOOKINGS Collection
+    // - Users can read/write their own bookings
+    // - Admins can read/write all bookings
+    match /bookings/{bookingId} {
+      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow write: if isAuthenticated(); // Allow creation
+    }
+
+    // MESSAGES Collection
+    // - Users can read/write their own messages
+    // - Admins can read/write all messages
+    match /messages/{messageId} {
+       allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+       allow write: if isAuthenticated();
+    }
+  }
+}

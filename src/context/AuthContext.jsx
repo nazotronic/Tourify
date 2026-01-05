@@ -16,16 +16,23 @@ export function AuthProvider({ children }) {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       try {
         if (firebaseUser) {
-          // User is signed in, fetch profile from Firestore
-          const docRef = doc(db, "users", firebaseUser.uid);
-          const docSnap = await getDoc(docRef);
-
-          if (docSnap.exists()) {
-            setUser({ id: firebaseUser.uid, ...docSnap.data() });
-          } else {
-            // Fallback if doc doesn't exist yet (registration race condition?)
-            setUser({ id: firebaseUser.uid, email: firebaseUser.email });
+          // User is signed in, try to fetch profile
+          let userProfile = {};
+          try {
+            const docRef = doc(db, "users", firebaseUser.uid);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+              userProfile = docSnap.data();
+            }
+          } catch (e) {
+            console.warn("Error fetching user profile:", e);
           }
+
+          setUser({
+            id: firebaseUser.uid,
+            email: firebaseUser.email,
+            ...userProfile
+          });
         } else {
           // User is signed out
           setUser(null);

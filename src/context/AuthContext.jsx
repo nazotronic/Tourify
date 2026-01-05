@@ -1,5 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { authAPI, userAPI } from "../config/api.js";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, db } from "../config/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 const AuthContext = createContext(null);
 
@@ -9,30 +12,43 @@ export function AuthProvider({ children }) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Check if user is already logged in (from localStorage)
-    const storedUser = localStorage.getItem('tourify_user');
-    if (storedUser) {
+    // Subscribe to Firebase Auth state
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       try {
-        setUser(JSON.parse(storedUser));
+        if (firebaseUser) {
+          // User is signed in, fetch profile from Firestore
+          const docRef = doc(db, "users", firebaseUser.uid);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            setUser({ id: firebaseUser.uid, ...docSnap.data() });
+          } else {
+            // Fallback if doc doesn't exist yet (registration race condition?)
+            setUser({ id: firebaseUser.uid, email: firebaseUser.email });
+          }
+        } else {
+          // User is signed out
+          setUser(null);
+          localStorage.removeItem('tourify_admin'); // Setup cleanup
+        }
       } catch (err) {
-        console.error('Error parsing stored user:', err);
-        localStorage.removeItem('tourify_user');
+        console.error("Auth State Error:", err);
+      } finally {
+        setLoading(false);
       }
-    }
-    setLoading(false);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const login = async (email, password) => {
     try {
       setError(null);
-      const { user: userData } = await authAPI.login(email, password);
-
-      setUser(userData);
-      localStorage.setItem('tourify_user', JSON.stringify(userData));
-
-      return userData;
+      // api.js login function handles signInWithEmailAndPassword
+      // Auth listener will update state
+      await authAPI.login(email, password);
     } catch (err) {
-      console.error("Помилка логіну:", err);
+      console.error("Login Error:", err);
       setError(err.message);
       throw err;
     }
@@ -41,14 +57,10 @@ export function AuthProvider({ children }) {
   const register = async (email, password, fullName) => {
     try {
       setError(null);
-      const { user: userData } = await authAPI.register(email, password, fullName);
-
-      setUser(userData);
-      localStorage.setItem('tourify_user', JSON.stringify(userData));
-
-      return userData;
+      await authAPI.register(email, password, fullName);
+      // Auth listener will update state
     } catch (err) {
-      console.error("Помилка реєстрації:", err);
+      console.error("Register Error:", err);
       setError(err.message);
       throw err;
     }
@@ -57,9 +69,7 @@ export function AuthProvider({ children }) {
   const logout = async () => {
     try {
       setError(null);
-      setUser(null);
-      localStorage.removeItem('tourify_user');
-      localStorage.removeItem('tourify_admin');
+      await authAPI.logout();
     } catch (err) {
       setError(err.message);
       throw err;
@@ -69,19 +79,10 @@ export function AuthProvider({ children }) {
   const changePassword = async (newPassword) => {
     try {
       setError(null);
-      if (!user) throw new Error("Користувач не авторизований");
-
-      if (typeof userAPI.changePassword !== 'function') {
-        console.error("userAPI.changePassword is not a function", userAPI);
-        throw new Error("Функція зміни паролю недоступна. Спробуйте перезавантажити сторінку.");
-      }
-
+      if (!user) throw new Error("Not authorized");
       await userAPI.changePassword(user.id, newPassword);
-
-      // Optional: Logout user to required re-login, or just succeed.
-      // We'll just succeed.
     } catch (err) {
-      console.error("Change password error:", err);
+      console.error("Change Password Error:", err);
       setError(err.message);
       throw err;
     }
@@ -91,8 +92,7 @@ export function AuthProvider({ children }) {
     if (!user) return;
     try {
       const updatedUser = await userAPI.getUser(user.id);
-      setUser(updatedUser);
-      localStorage.setItem('tourify_user', JSON.stringify(updatedUser));
+      setUser(prev => ({ ...prev, ...updatedUser }));
     } catch (err) {
       console.error("Failed to refresh user:", err);
     }
@@ -101,22 +101,16 @@ export function AuthProvider({ children }) {
   const adminLogin = async (password) => {
     try {
       setError(null);
-      const { success, role } = await authAPI.adminLogin(password);
-
-      if (success && role === 'admin') {
-        const adminUser = {
-          id: 'admin',
-          email: 'admin@tourify.com',
-          role: 'admin',
-          fullName: 'Administrator'
-        };
-        setUser(adminUser);
-        localStorage.setItem('tourify_user', JSON.stringify(adminUser));
-        localStorage.setItem('tourify_admin', 'true');
-        return adminUser;
+      const res = await authAPI.adminLogin(password);
+      if (res.success) {
+        // Force refresh to get role if needed, but onAuthStateChanged handles it
+        // Wait a tick? onAuthStateChanged should fire after signIn
+        // We can return success
+        localStorage.setItem('tourify_admin', 'true'); // For strict checks
+        return res;
       }
     } catch (err) {
-      console.error("Помилка адмін-логіну:", err);
+      console.error("Admin Login Error:", err);
       setError(err.message);
       throw err;
     }
